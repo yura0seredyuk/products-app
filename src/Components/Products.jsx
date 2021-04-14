@@ -34,26 +34,31 @@ export function Products({ products, deleteProduct }) {
                 title={product.name}
               />
               <CardContent>
-                <Typography gutterBottom variant="h5" component="h2">
+                <Typography gutterBottom variant="h4" component="h2">
                   {product.name}
                 </Typography>
-                <Typography variant="body2">
+                <Typography variant="body1">
                   {`Products left: ${product.count}`}
                 </Typography>
               </CardContent>
             </CardActionArea>
             <CardActions>
-              <Button color="primary">
-                Learn More
-              </Button>
+              <Box m={2}>
+                <Button variant="contained" color="primary">
+                  Learn More
+                </Button>
+              </Box>
 
-              <Button
-                size="small"
-                color="primary"
-                onClick={() => deleteProduct(product)}
-              >
-                Delete product
-              </Button>
+              <Box m={2}>
+                <Button
+                  size="small"
+                  variant="contained"
+                  color="secondary"
+                  onClick={() => deleteProduct(product)}
+                >
+                  Delete product
+                </Button>
+              </Box>
             </CardActions>
           </Card>
 

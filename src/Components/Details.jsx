@@ -132,10 +132,10 @@ export const Details = ({
             title={productName}
           />
           <CardContent>
-            <Typography gutterBottom variant="h5" component="h2">
+            <Typography gutterBottom variant="h4" component="h2">
               {productName}
             </Typography>
-            <Typography>
+            <Typography variant="h5">
               {productDescription}
             </Typography>
             <Typography variant="body2" color="textSecondary" component="p">
@@ -145,7 +145,9 @@ export const Details = ({
               {`Height: ${productSize && productSize.height}mm Width: ${productSize && productSize.width}mm`}
             </Typography>
 
-            <Button onClick={openModal}>Edit details</Button>
+            <Box m={2}>
+              <Button variant="contained" onClick={openModal}>Edit details</Button>
+            </Box>
 
             <Typography>Comments:</Typography>
 
@@ -157,9 +159,17 @@ export const Details = ({
                     : (<>No comments</>)}
                 </Typography>
                 <Typography>
-                  {comment.date && new Date(comment.date.seconds).toLocaleDateString("en-US")}
+                  {comment.date && `Date: ${new Date(comment.date.seconds).toLocaleDateString()}`}
                 </Typography>
-                <Button onClick={() => deleteComment(comment)}>X</Button>
+                <Box m={2}>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={() => deleteComment(comment)}
+                  >
+                    X
+                  </Button>
+                </Box>
               </Box>
             ))}
             <form
@@ -173,7 +183,15 @@ export const Details = ({
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
               />
-              <Button onClick={addCommentToDatabase}>Add Comment</Button>
+              <Box m={2}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={addCommentToDatabase}
+                >
+                  Add Comment
+                </Button>
+              </Box>
             </form>
 
             <Modal
@@ -184,7 +202,7 @@ export const Details = ({
               contentLabel="Example Modal"
             >
 
-              <h2 ref={_subtitle => (subtitle = _subtitle)}>Hello</h2>
+              <h2 ref={_subtitle => (subtitle = _subtitle)}>Edit details</h2>
               <form>
                 <Box>Name:</Box>
                 <TextField

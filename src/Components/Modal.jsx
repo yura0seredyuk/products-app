@@ -40,6 +40,7 @@ export function ModalForm() {
   const [size, setSize] = useState({});
   const [imageUrl, setImageUrl] = useState('');
   const [modalIsOpen,setIsOpen] = useState(false);
+  const [description, setDescription] = useState('');
   const ref = firebase.firestore().collection('Products');
   const classes = useStyles();
 
@@ -73,7 +74,7 @@ export function ModalForm() {
   }
 
   const addProductToDatabase = () => {
-    addNewProducts({ id: nanoid(), name, count, imageUrl, weight, size });
+    addNewProducts({ id: nanoid(), name, count, imageUrl, weight, size, description, comments: [] });
     setIsOpen(false);
   }
 
@@ -138,6 +139,13 @@ export function ModalForm() {
             id="standard-basic"
             label="Size"
             onChange={addSize}
+          />
+
+          <TextField
+            type="text"
+            id="standard-basic"
+            label="Description"
+            onChange={(e) => setDescription((e.target.value))}
           />
 
           <Box m={2} display="flex">

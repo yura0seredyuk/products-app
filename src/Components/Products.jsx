@@ -8,6 +8,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { Box } from '@material-ui/core';
+import { Details } from './Details';
 
 const useStyles = makeStyles({
   root: {
@@ -56,6 +57,16 @@ export function Products({ products, deleteProduct }) {
               </Button>
             </CardActions>
           </Card>
+
+          <Details
+            productName={product.name}
+            productDescription={product.description}
+            productWeight={product.weight}
+            productSize={product.size}
+            productImageUrl={product.imageUrl}
+            productId={product.productId}
+            productComments={product.comments}
+          />
         </Box>
       ))}
       </Box>

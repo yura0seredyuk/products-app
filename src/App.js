@@ -5,6 +5,7 @@ import { Products } from './Components/Products';
 import { ModalForm } from './Components/Modal';
 import Button from '@material-ui/core/Button';
 import { Box } from '@material-ui/core';
+import 'firebase/firestore';
 import { Details } from './Components/Details';
 import { Route, Link } from "react-router-dom";
 
@@ -53,7 +54,6 @@ function App() {
 
   return (
     <>
-      <Route path="/">
         <div className="App">
           <Box
             m={2}
@@ -89,10 +89,6 @@ function App() {
             deleteProduct={deleteProduct}
           />
         </div>
-      </Route>
-      <Route path="/details">
-        <Details />
-      </Route>
     </>
   );
 }

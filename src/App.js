@@ -9,9 +9,7 @@ import 'firebase/firestore';
 
 function App() {
   const [products, setProducts] = useState([]);
-  const [sortedProducts, setSortedProducts] = useState(products);
   const ref = firebase.firestore().collection('Products');
-
 
   function getProducts() {
     ref.onSnapshot((querySnapshot) => {
@@ -25,7 +23,7 @@ function App() {
 
   useEffect(() => {
     getProducts();
-  }, [sortedProducts])
+  }, [])
 
   function deleteProduct(product) {
     ref
@@ -37,17 +35,17 @@ function App() {
   }
 
   const sortByName = () => {
-    const sorted = products.sort((prev, next) => {
+    const sorted = [...products].sort((prev, next) => {
       return prev.name.localeCompare(next.name);
     });
-    setSortedProducts(sorted);
+    setProducts(sorted);
   };
 
   const sortByCount = () => {
-    const sorted = products.sort((prev, next) => {
+    const sorted = [...products].sort((prev, next) => {
       return prev.count - next.count;
     });
-    setSortedProducts(sorted);
+    setProducts(sorted);
   };
 
   return (

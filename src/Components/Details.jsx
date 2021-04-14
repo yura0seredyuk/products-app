@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from 'react-modal';
 import Card from '@material-ui/core/Card';
@@ -237,4 +238,13 @@ export const Details = ({
       </Card>
     </>
   );
+}
+
+Details.propTypes = {
+  productName: PropTypes.string.isRequired,
+  productDescription: PropTypes.string.isRequired,
+  productWeight: PropTypes.string.isRequired,
+  productSize: PropTypes.object.isRequired,
+  productId: PropTypes.string.isRequired,
+  productImageUrl: PropTypes.string.isRequired,
 }

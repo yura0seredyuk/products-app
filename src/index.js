@@ -4,7 +4,6 @@ import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 import firebase from 'firebase/app';
 import 'firebase/firestore'
-require('firebase/database');
 
 const firebaseConfig = {
   apiKey: "AIzaSyBSZDPFopZP_72U7aGNOjbxQQB4f618zbQ",

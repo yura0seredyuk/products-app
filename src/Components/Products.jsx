@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -9,6 +10,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { Box } from '@material-ui/core';
 import { Details } from './Details';
+
 
 const useStyles = makeStyles({
   root: {
@@ -69,11 +71,24 @@ export function Products({ products, deleteProduct }) {
             productSize={product.size}
             productImageUrl={product.imageUrl}
             productId={product.id}
-            productComments={product.comments}
           />
         </Box>
       ))}
       </Box>
     </>
   );
+}
+
+Products.propTypes = {
+  deleteProduct: PropTypes.func.isRequired,
+  products: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      description: PropTypes.string.isRequired,
+      weight: PropTypes.string.isRequired,
+      size: PropTypes.object.isRequired,
+      imageUrl: PropTypes.string.isRequired,
+      id: PropTypes.string.isRequired,
+    }),
+  ).isRequired
 }

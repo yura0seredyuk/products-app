@@ -21,7 +21,6 @@ export function Products({ products, deleteProduct }) {
 
   return (
     <>
-      {console.log(products)}
       <Box display="flex" flexWrap="wrap" justifyContent="center">
       {products.map(product => (
         <Box m={2}>

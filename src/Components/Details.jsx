@@ -1,4 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import {
+  BrowserRouter as Router,
+  Route,
+  Link
+} from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -9,6 +14,7 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
+import { Box } from '@material-ui/core';
 import { customAlphabet } from 'nanoid';
 const nanoid = customAlphabet('1234567890', 4);
 
@@ -22,7 +28,6 @@ export const Details = ({
   productName,
   productDescription,
   productWeight,
-  productComments,
   productSize,
   productId,
   productImageUrl
@@ -31,6 +36,19 @@ export const Details = ({
   const [description, setDescription] = useState('');
   const [comments, setComments] = useState('');
   const ref = firebase.firestore().collection(`Products/${productId}/comments/`);
+  const reference = firebase.firestore().collection("Products");
+  const [changeName, setChangeName] = useState(productName);
+  const [changeDescription, setChangeDescription] = useState(productDescription);
+  const [changeWeight, setChangeWeight] = useState(productWeight);
+
+  function editProducts(updatedProduct) {
+    reference
+      .doc(updatedProduct.id)
+      .update(updatedProduct)
+      .catch((err) => {
+        console.error(err);
+      });
+  }
 
   function getComments() {
     ref.onSnapshot((querySnapshot) => {
@@ -68,8 +86,20 @@ export const Details = ({
     addComment({ description, id: nanoid(), productId, date: new Date() });
   }
 
+  const editName = (event) => {
+    setChangeName(event.target.value);
+  }
+
+  const editDescription = (event) => {
+    setChangeDescription(event.target.value);
+  }
+
+  const editWeight = (event) => {
+    setChangeWeight(event.target.value);
+  }
+
   return (
-    <>
+    <Router>
       <Card className={classes.root}>
         <CardActionArea>
           <CardMedia
@@ -121,9 +151,38 @@ export const Details = ({
               />
               <Button onClick={addCommentToDatabase}>Add Comment</Button>
             </form>
+
+            <form>
+              <Box>Name:</Box>
+              <TextField
+                id="standard-basic"
+                value={changeName}
+                onChange={editName}
+              />
+              <Box>Description:</Box>
+              <TextField
+                id="standard-basic"
+                value={changeDescription}
+                onChange={editDescription}
+              />
+              <Box>Weight:</Box>
+              <TextField
+                id="standard-basic"
+                value={changeWeight}
+                onChange={editWeight}
+              />
+              <Box>
+                <Button
+                  onClick={() => editProducts({ name: changeName, description: changeDescription, weight: changeWeight })}
+                >
+                  Save
+                </Button>
+                <Button>Cancel</Button>
+              </Box>
+            </form>
           </CardContent>
         </CardActionArea>
       </Card>
-    </>
+    </Router>
   );
 }

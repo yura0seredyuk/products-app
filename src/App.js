@@ -12,6 +12,7 @@ function App() {
   const [sortedProducts, setSortedProducts] = useState(products);
   const ref = firebase.firestore().collection('Products');
 
+
   function getProducts() {
     ref.onSnapshot((querySnapshot) => {
       const items = [];

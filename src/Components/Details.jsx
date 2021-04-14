@@ -1,9 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import {
-  BrowserRouter as Router,
-  Route,
-  Link
-} from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -99,7 +94,7 @@ export const Details = ({
   }
 
   return (
-    <Router>
+    <>
       <Card className={classes.root}>
         <CardActionArea>
           <CardMedia
@@ -126,8 +121,8 @@ export const Details = ({
             <Typography>Comments:</Typography>
 
             {comments && comments.map(comment => (
-              <>
-                <Typography key={comment.id}>
+              <Box key={comment.id}>
+                <Typography>
                   {comment.description
                     ? `# ${comment.description}`
                     : (<>No comments</>)}
@@ -136,7 +131,7 @@ export const Details = ({
                   {comment.date && new Date(comment.date.seconds).toLocaleDateString("en-US")}
                 </Typography>
                 <Button onClick={() => deleteComment(comment)}>X</Button>
-              </>
+              </Box>
             ))}
             <form
               className={classes.root}
@@ -183,6 +178,6 @@ export const Details = ({
           </CardContent>
         </CardActionArea>
       </Card>
-    </Router>
+    </>
   );
 }

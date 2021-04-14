@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -23,8 +23,8 @@ export function Products({ products, deleteProduct }) {
     <>
       <Box display="flex" flexWrap="wrap" justifyContent="center">
       {products.map(product => (
-        <Box m={2}>
-          <Card className={classes.root} key={product.id}>
+        <Box m={2} key={product.id}>
+          <Card className={classes.root}>
             <CardActionArea>
               <CardMedia
                 component="img"
@@ -43,7 +43,7 @@ export function Products({ products, deleteProduct }) {
               </CardContent>
             </CardActionArea>
             <CardActions>
-              <Button size="big" color="primary">
+              <Button color="primary">
                 Learn More
               </Button>
 

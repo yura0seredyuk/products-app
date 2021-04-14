@@ -1,4 +1,4 @@
-import React, {useState, useEffect, createRef} from "react";
+import React, {useState, useEffect} from "react";
 import './App.css';
 import firebase from 'firebase/app';
 import { Products } from './Components/Products';

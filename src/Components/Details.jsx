@@ -173,7 +173,7 @@ export const Details = ({
               />
               <Box>
                 <Button
-                  onClick={() => editProducts({ name: changeName, description: changeDescription, weight: changeWeight })}
+                  onClick={() => editProducts({ name: changeName, description: changeDescription, weight: changeWeight, id: productId })}
                 >
                   Save
                 </Button>

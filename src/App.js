@@ -33,14 +33,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-function afterOpenModal() {
-  subtitle.style.color = '#f00';
-}
-
-function closeModal(){
-  setIsOpen(false);
-}
-
 function App() {
   const [products, setProducts] = useState([]);
   const [sortedProducts, setSortedProducts] = useState(products);
@@ -52,6 +44,20 @@ function App() {
   const [activeAddButton, setActiveAddButton] = useState(false);
   const ref = firebase.firestore().collection('Products');
   const classes = useStyles();
+
+  var subtitle;
+  const [modalIsOpen,setIsOpen] = useState(false);
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  function afterOpenModal() {
+    subtitle.style.color = '#f00';
+  }
+
+  function closeModal(){
+    setIsOpen(false);
+  }
 
   function getProducts() {
     ref.onSnapshot((querySnapshot) => {
@@ -141,17 +147,19 @@ function App() {
       <Button
         variant="outlined"
         color="primary"
-        onClick={() => setActiveAddButton(true)}
+        onClick={openModal}
       >
         Add new Product
       </Button>
 
-      <Products
-        products={products}
-        deleteProduct={deleteProduct}
-      />
-
-      {activeAddButton && (
+      <Modal
+        isOpen={modalIsOpen}
+        onAfterOpen={afterOpenModal}
+        onRequestClose={closeModal}
+        style={customStyles}
+        contentLabel="Example Modal"
+      >
+        <h2 ref={_subtitle => (subtitle = _subtitle)}>ADD NEW PRODUCT</h2>
         <form
           className={classes.root}
           noValidate autoComplete="off"
@@ -198,7 +206,7 @@ function App() {
           <Button
             variant="outlined"
             color="primary"
-            onClick={cancelAdd}
+            onClick={closeModal}
           >
             Cancel
           </Button>
@@ -211,7 +219,12 @@ function App() {
             Submit
           </Button>
         </form>
-      )}
+      </Modal>
+
+      <Products
+        products={products}
+        deleteProduct={deleteProduct}
+      />
     </div>
   );
 }

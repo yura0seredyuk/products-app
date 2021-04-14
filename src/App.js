@@ -24,8 +24,9 @@ function App() {
   const [name, setName] = useState('');
   const [count, setCount] = useState('');
   const [weight, setWeight] = useState('');
-  const [size, setSize] = useState('');
+  const [size, setSize] = useState({});
   const [imageUrl, setImageUrl] = useState('');
+  const [activeAddButton, setActiveAddButton] = useState(false);
   const ref = firebase.firestore().collection('Products');
   const classes = useStyles();
 
@@ -52,6 +53,24 @@ function App() {
       });
   }
 
+  function deleteProduct(product) {
+    ref
+      .doc(product.id)
+      .delete()
+      .catch((err) => {
+        console.error(err);
+      });
+  }
+
+  function editProduct(product) {
+    ref
+      .doc(product.id)
+      .update(product)
+      .catch((err) => {
+        console.error(err);
+      });
+  }
+
   const sortByName = () => {
     const sorted = products.sort((prev, next) => {
       return prev.name.localeCompare(next.name);
@@ -67,7 +86,14 @@ function App() {
   };
 
   const addSize = (event) => {
-    setSize(event.target.value);
+    const value = event.target.value.split('x');
+
+    setSize({height: value[0], width:value[1]});
+  }
+
+  const addProductToDatabase = () => {
+    addNewProducts({ id: nanoid(), name, count, imageUrl, weight, size });
+    setActiveAddButton(false);
   }
 
   return (
@@ -85,67 +111,72 @@ function App() {
         Sort by count
       </Button>
 
-      <Products products={products} />
-
       <Button
         variant="outlined"
         color="primary"
+        onClick={() => setActiveAddButton(true)}
       >
         Add new Product
       </Button>
 
-      <form
-        className={classes.root}
-        noValidate autoComplete="off"
-      >
-        <TextField
-          type="text"
-          id="standard-basic"
-          label="Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
+      <Products
+        products={products}
+        deleteProduct={deleteProduct}
+      />
 
-        <TextField
-          type="number"
-          id="standard-basic"
-          label="Count"
-          value={count}
-          onChange={(e) => setCount(e.target.value)}
-        />
-
-        <TextField
-          type="text"
-          id="standard-basic"
-          label="ImageUrl"
-          value={imageUrl}
-          onChange={(e) => setImageUrl(e.target.value)}
-        />
-
-        <TextField
-          type="text"
-          id="standard-basic"
-          label="Weight"
-          value={weight}
-          onChange={(e) => setWeight(e.target.value)}
-        />
-
-        <TextField
-          type="text"
-          id="standard-basic"
-          label="Size"
-          value={size}
-          onChange={addSize}
-        />
-
-        <Button
-          variant="outlined"
-          color="primary"
-          onClick={() => addNewProducts({ id: nanoid(), name, count, imageUrl, weight, size })}
+      {activeAddButton && (
+        <form
+          className={classes.root}
+          noValidate autoComplete="off"
         >
-          Submit
-        </Button>
-      </form>
+          <TextField
+            type="text"
+            id="standard-basic"
+            label="Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+
+          <TextField
+            type="number"
+            id="standard-basic"
+            label="Count"
+            value={count}
+            onChange={(e) => setCount(e.target.value)}
+          />
+
+          <TextField
+            type="text"
+            id="standard-basic"
+            label="ImageUrl"
+            value={imageUrl}
+            onChange={(e) => setImageUrl(e.target.value)}
+          />
+
+          <TextField
+            type="text"
+            id="standard-basic"
+            label="Weight"
+            value={weight}
+            onChange={(e) => setWeight(e.target.value)}
+          />
+
+          <TextField
+            type="text"
+            id="standard-basic"
+            label="Size"
+            onChange={addSize}
+          />
+
+          <Button
+            variant="outlined"
+            color="primary"
+            onClick={addProductToDatabase}
+          >
+            Submit
+          </Button>
+        </form>
+      )}
     </div>
   );
 }

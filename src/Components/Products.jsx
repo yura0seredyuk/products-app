@@ -14,7 +14,7 @@ const useStyles = makeStyles({
   },
 });
 
-export function Products({ products }) {
+export function Products({ products, deleteProduct }) {
   const classes = useStyles();
 
   return (
@@ -40,8 +40,16 @@ export function Products({ products }) {
             </CardContent>
           </CardActionArea>
           <CardActions>
-            <Button size="small" color="primary">
+            <Button size="big" color="primary">
               Learn More
+            </Button>
+
+            <Button
+              size="small"
+              color="primary"
+              onClick={() => deleteProduct(product)}
+            >
+              Delete product
             </Button>
           </CardActions>
         </Card>

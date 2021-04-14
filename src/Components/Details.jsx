@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
@@ -30,10 +29,22 @@ export const Details = ({
 }) => {
   const classes = useStyles();
   const [description, setDescription] = useState('');
-  const ref = firebase.firestore().collection('Products');
+  const [comments, setComments] = useState('');
+  const ref = firebase.firestore().collection(`Products/${productId}/comments/`);
 
-  var productListRef = firebase.database().ref('Products');
-  var newCommentRef = productListRef.push();
+  function getComments() {
+    ref.onSnapshot((querySnapshot) => {
+      const items = [];
+      querySnapshot.forEach((item) => {
+        items.push(item.data());
+      });
+      setComments(items);
+    });
+  }
+
+  useEffect(() => {
+    getComments();
+  }, [])
 
   function addComment(newComment) {
     ref
@@ -44,8 +55,17 @@ export const Details = ({
       });
   }
 
+  function deleteComment(comment) {
+    ref
+      .doc(comment.id)
+      .delete()
+      .catch((err) => {
+        console.error(err);
+      });
+  }
+
   const addCommentToDatabase = () => {
-    addComment({ description, id: nanoid() });
+    addComment({ description, id: nanoid(), productId, date: new Date() });
   }
 
   return (
@@ -75,17 +95,17 @@ export const Details = ({
 
             <Typography>Comments:</Typography>
 
-            {productComments && productComments.map(product => (
+            {comments && comments.map(comment => (
               <>
-                <Typography key={product.id}>
-                  {product.description
-                    ? `# ${product.description}`
+                <Typography key={comment.id}>
+                  {comment.description
+                    ? `# ${comment.description}`
                     : (<>No comments</>)}
                 </Typography>
                 <Typography>
-                  {product.date && new Date(product.date.seconds).toLocaleDateString("en-US")}
+                  {comment.date && new Date(comment.date.seconds).toLocaleDateString("en-US")}
                 </Typography>
-                <Button>X</Button>
+                <Button onClick={() => deleteComment(comment)}>X</Button>
               </>
             ))}
             <form

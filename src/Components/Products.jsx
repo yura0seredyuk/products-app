@@ -64,7 +64,7 @@ export function Products({ products, deleteProduct }) {
             productWeight={product.weight}
             productSize={product.size}
             productImageUrl={product.imageUrl}
-            productId={product.productId}
+            productId={product.id}
             productComments={product.comments}
           />
         </Box>

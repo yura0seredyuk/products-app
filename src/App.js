@@ -6,9 +6,6 @@ import { ModalForm } from './Components/Modal';
 import Button from '@material-ui/core/Button';
 import { Box } from '@material-ui/core';
 import 'firebase/firestore';
-import { Details } from './Components/Details';
-import { Route, Link } from "react-router-dom";
-
 
 function App() {
   const [products, setProducts] = useState([]);

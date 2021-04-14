@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import Modal from 'react-modal';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
@@ -12,6 +13,18 @@ import 'firebase/firestore';
 import { Box } from '@material-ui/core';
 import { customAlphabet } from 'nanoid';
 const nanoid = customAlphabet('1234567890', 4);
+const customStyles = {
+  content : {
+    top                   : '50%',
+    left                  : '50%',
+    right                 : 'auto',
+    bottom                : 'auto',
+    marginRight           : '-50%',
+    transform             : 'translate(-50%, -50%)'
+  }
+};
+
+Modal.setAppElement('#root')
 
 const useStyles = makeStyles({
   root: {
@@ -35,6 +48,20 @@ export const Details = ({
   const [changeName, setChangeName] = useState(productName);
   const [changeDescription, setChangeDescription] = useState(productDescription);
   const [changeWeight, setChangeWeight] = useState(productWeight);
+
+  var subtitle;
+  const [modalIsOpen,setIsOpen] = React.useState(false);
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  function afterOpenModal() {
+    subtitle.style.color = 'black';
+  }
+
+  function closeModal(){
+    setIsOpen(false);
+  }
 
   function editProducts(updatedProduct) {
     reference
@@ -118,6 +145,8 @@ export const Details = ({
               {`Height: ${productSize && productSize.height}mm Width: ${productSize && productSize.width}mm`}
             </Typography>
 
+            <Button onClick={openModal}>Edit details</Button>
+
             <Typography>Comments:</Typography>
 
             {comments && comments.map(comment => (
@@ -147,34 +176,44 @@ export const Details = ({
               <Button onClick={addCommentToDatabase}>Add Comment</Button>
             </form>
 
-            <form>
-              <Box>Name:</Box>
-              <TextField
-                id="standard-basic"
-                value={changeName}
-                onChange={editName}
-              />
-              <Box>Description:</Box>
-              <TextField
-                id="standard-basic"
-                value={changeDescription}
-                onChange={editDescription}
-              />
-              <Box>Weight:</Box>
-              <TextField
-                id="standard-basic"
-                value={changeWeight}
-                onChange={editWeight}
-              />
-              <Box>
-                <Button
-                  onClick={() => editProducts({ name: changeName, description: changeDescription, weight: changeWeight, id: productId })}
-                >
-                  Save
-                </Button>
-                <Button>Cancel</Button>
-              </Box>
-            </form>
+            <Modal
+              isOpen={modalIsOpen}
+              onAfterOpen={afterOpenModal}
+              onRequestClose={closeModal}
+              style={customStyles}
+              contentLabel="Example Modal"
+            >
+
+              <h2 ref={_subtitle => (subtitle = _subtitle)}>Hello</h2>
+              <form>
+                <Box>Name:</Box>
+                <TextField
+                  id="standard-basic"
+                  value={changeName}
+                  onChange={editName}
+                />
+                <Box>Description:</Box>
+                <TextField
+                  id="standard-basic"
+                  value={changeDescription}
+                  onChange={editDescription}
+                />
+                <Box>Weight:</Box>
+                <TextField
+                  id="standard-basic"
+                  value={changeWeight}
+                  onChange={editWeight}
+                />
+                <Box>
+                  <Button
+                    onClick={() => editProducts({ name: changeName, description: changeDescription, weight: changeWeight, id: productId })}
+                  >
+                    Save
+                  </Button>
+                  <Button onClick={closeModal}>Close details</Button>
+                </Box>
+              </form>
+            </Modal>
           </CardContent>
         </CardActionArea>
       </Card>

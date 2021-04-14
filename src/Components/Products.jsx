@@ -7,6 +7,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import { Box } from '@material-ui/core';
 
 const useStyles = makeStyles({
   root: {
@@ -20,40 +21,44 @@ export function Products({ products, deleteProduct }) {
   return (
     <>
       {console.log(products)}
+      <Box display="flex" flexWrap="wrap" justifyContent="center">
       {products.map(product => (
-        <Card className={classes.root} key={product.id}>
-          <CardActionArea>
-            <CardMedia
-              component="img"
-              alt={product.name}
-              height="140"
-              image={product.imageUrl}
-              title={product.name}
-            />
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="h2">
-                {product.name}
-              </Typography>
-              <Typography variant="body2">
-                {`Products left: ${product.count}`}
-              </Typography>
-            </CardContent>
-          </CardActionArea>
-          <CardActions>
-            <Button size="big" color="primary">
-              Learn More
-            </Button>
+        <Box m={2}>
+          <Card className={classes.root} key={product.id}>
+            <CardActionArea>
+              <CardMedia
+                component="img"
+                alt={product.name}
+                height="140"
+                image={product.imageUrl}
+                title={product.name}
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="h2">
+                  {product.name}
+                </Typography>
+                <Typography variant="body2">
+                  {`Products left: ${product.count}`}
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+            <CardActions>
+              <Button size="big" color="primary">
+                Learn More
+              </Button>
 
-            <Button
-              size="small"
-              color="primary"
-              onClick={() => deleteProduct(product)}
-            >
-              Delete product
-            </Button>
-          </CardActions>
-        </Card>
+              <Button
+                size="small"
+                color="primary"
+                onClick={() => deleteProduct(product)}
+              >
+                Delete product
+              </Button>
+            </CardActions>
+          </Card>
+        </Box>
       ))}
+      </Box>
     </>
   );
 }

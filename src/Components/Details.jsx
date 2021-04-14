@@ -1,9 +1,9 @@
 import React from 'react';
 
-export function Details() {
+export const Details = () => {
   return (
     <>
-
+      123342534253
     </>
   );
 }

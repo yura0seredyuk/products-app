@@ -5,6 +5,8 @@ import { Products } from './Components/Products';
 import { ModalForm } from './Components/Modal';
 import Button from '@material-ui/core/Button';
 import { Box } from '@material-ui/core';
+import { Details } from './Components/Details';
+import { Route, Link } from "react-router-dom";
 
 
 function App() {
@@ -50,41 +52,48 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <Box
-        m={2}
-        fontSize={40}
-        fontFamily="Roboto"
-      >
-        Product list
-      </Box>
-
-      <Box m={2} display="flex">
-        <Box mr={2}>
-          <Button
-            variant="contained"
-            onClick={sortByName}
+    <>
+      <Route path="/">
+        <div className="App">
+          <Box
+            m={2}
+            fontSize={40}
+            fontFamily="Roboto"
           >
-            Sort by name
-          </Button>
-        </Box>
-        <Box>
-          <Button
-            variant="contained"
-            onClick={sortByCount}
-          >
-            Sort by count
-          </Button>
-        </Box>
-      </Box>
+            Product list
+          </Box>
 
-      <ModalForm />
+          <Box m={2} display="flex">
+            <Box mr={2}>
+              <Button
+                variant="contained"
+                onClick={sortByName}
+              >
+                Sort by name
+              </Button>
+            </Box>
+            <Box>
+              <Button
+                variant="contained"
+                onClick={sortByCount}
+              >
+                Sort by count
+              </Button>
+            </Box>
+          </Box>
 
-      <Products
-        products={products}
-        deleteProduct={deleteProduct}
-      />
-    </div>
+          <ModalForm />
+
+          <Products
+            products={products}
+            deleteProduct={deleteProduct}
+          />
+        </div>
+      </Route>
+      <Route path="/details">
+        <Details />
+      </Route>
+    </>
   );
 }
 

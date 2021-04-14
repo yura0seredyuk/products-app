@@ -6,6 +6,20 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import { customAlphabet } from 'nanoid';
+import Modal from 'react-modal';
+
+const customStyles = {
+  content : {
+    top                   : '50%',
+    left                  : '50%',
+    right                 : 'auto',
+    bottom                : 'auto',
+    marginRight           : '-50%',
+    transform             : 'translate(-50%, -50%)'
+  }
+};
+
+Modal.setAppElement('#root');
 
 const nanoid = customAlphabet('1234567890', 4);
 
@@ -17,6 +31,15 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
+
+
+function afterOpenModal() {
+  subtitle.style.color = '#f00';
+}
+
+function closeModal(){
+  setIsOpen(false);
+}
 
 function App() {
   const [products, setProducts] = useState([]);
@@ -96,6 +119,10 @@ function App() {
     setActiveAddButton(false);
   }
 
+  const cancelAdd = () => {
+    setActiveAddButton(false);
+  }
+
   return (
     <div className="App">
       <Button
@@ -167,6 +194,14 @@ function App() {
             label="Size"
             onChange={addSize}
           />
+
+          <Button
+            variant="outlined"
+            color="primary"
+            onClick={cancelAdd}
+          >
+            Cancel
+          </Button>
 
           <Button
             variant="outlined"

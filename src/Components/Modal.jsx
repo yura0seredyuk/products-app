@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
 const customStyles = {
   content: {
     width: '600px',
-    top: '20%',
+    top: '30%',
     left: '50%',
     right: 'auto',
     bottom: 'auto',

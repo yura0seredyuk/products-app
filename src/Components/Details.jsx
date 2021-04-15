@@ -140,7 +140,7 @@ export const Details = ({
           <CardMedia
             component="img"
             alt={productName}
-            height="100"
+            height="300"
             image={productImageUrl}
             title={productName}
           />

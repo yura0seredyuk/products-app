@@ -81,7 +81,7 @@ export function ModalForm() {
     setDescription('');
     setImageUrl('');
     setWeight('');
-  }
+  };
 
   const addProductToDatabase = () => {
     addNewProducts({

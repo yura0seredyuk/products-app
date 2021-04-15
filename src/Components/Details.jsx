@@ -78,7 +78,7 @@ export const Details = ({
       .catch((err) => {
         throw new Error(err);
       });
-    setIsOpen(false)
+    setIsOpen(false);
   }
 
   function getComments() {
@@ -118,7 +118,7 @@ export const Details = ({
     addComment({
       description, id: nanoid(), productId, date: new Date(),
     });
-      setDescription('');
+    setDescription('');
   };
 
   const editName = (event) => {

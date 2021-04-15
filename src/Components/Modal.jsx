@@ -9,7 +9,7 @@ import { Box } from '@material-ui/core';
 
 const nanoid = customAlphabet('1234567890', 4);
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     '& .MuiTextField-root': {
       margin: theme.spacing(1),
@@ -18,17 +18,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
 const customStyles = {
-  content : {
-    width                 : '600px',
-    top                   : '20%',
-    left                  : '50%',
-    right                 : 'auto',
-    bottom                : 'auto',
-    marginRight           : '-50%',
-    transform             : 'translate(-50%, -50%)'
-  }
+  content: {
+    width: '600px',
+    top: '20%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+  },
 };
 
 Modal.setAppElement('#root');
@@ -39,7 +38,7 @@ export function ModalForm() {
   const [weight, setWeight] = useState('');
   const [size, setSize] = useState({});
   const [imageUrl, setImageUrl] = useState('');
-  const [modalIsOpen,setIsOpen] = useState(false);
+  const [modalIsOpen, setIsOpen] = useState(false);
   const [description, setDescription] = useState('');
   const ref = firebase.firestore().collection('Products');
   const classes = useStyles();
@@ -54,7 +53,7 @@ export function ModalForm() {
     subtitle.style.color = '#grey';
   }
 
-  function closeModal(){
+  function closeModal() {
     setIsOpen(false);
   }
 
@@ -63,20 +62,31 @@ export function ModalForm() {
       .doc(newProduct.id)
       .set(newProduct)
       .catch((err) => {
-        console.error(err);
+        throw new Error(err);
       });
   }
 
   const addSize = (event) => {
     const value = event.target.value.split('x');
 
-    setSize({height: value[0], width:value[1]});
-  }
+    setSize({
+      height: value[0], width: value[1],
+    });
+  };
 
   const addProductToDatabase = () => {
-    addNewProducts({ id: nanoid(), name, count, imageUrl, weight, size, description, comments: [] });
+    addNewProducts({
+      id: nanoid(),
+      name,
+      count,
+      imageUrl,
+      weight,
+      size,
+      description,
+      comments: [],
+    });
     setIsOpen(false);
-  }
+  };
 
   return (
     <>
@@ -100,14 +110,15 @@ export function ModalForm() {
         <h2 ref={_subtitle => (subtitle = _subtitle)}>ADD NEW PRODUCT</h2>
         <form
           className={classes.root}
-          noValidate autoComplete="off"
+          noValidate
+          autoComplete="off"
         >
           <TextField
             type="text"
             id="standard-basic"
             label="Name"
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={e => setName(e.target.value)}
           />
 
           <TextField
@@ -115,7 +126,7 @@ export function ModalForm() {
             id="standard-basic"
             label="Count"
             value={count}
-            onChange={(e) => setCount(e.target.value)}
+            onChange={e => setCount(e.target.value)}
           />
 
           <TextField
@@ -123,7 +134,7 @@ export function ModalForm() {
             id="standard-basic"
             label="ImageUrl"
             value={imageUrl}
-            onChange={(e) => setImageUrl(e.target.value)}
+            onChange={e => setImageUrl(e.target.value)}
           />
 
           <TextField
@@ -131,7 +142,7 @@ export function ModalForm() {
             id="standard-basic"
             label="Weight"
             value={weight}
-            onChange={(e) => setWeight(e.target.value)}
+            onChange={e => setWeight(e.target.value)}
           />
 
           <TextField
@@ -145,7 +156,7 @@ export function ModalForm() {
             type="text"
             id="standard-basic"
             label="Description"
-            onChange={(e) => setDescription((e.target.value))}
+            onChange={e => setDescription((e.target.value))}
           />
 
           <Box m={2} display="flex">
@@ -171,5 +182,5 @@ export function ModalForm() {
         </form>
       </Modal>
     </>
-  )
+  );
 }

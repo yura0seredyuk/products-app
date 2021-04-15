@@ -13,19 +13,20 @@ import firebase from 'firebase/app';
 import 'firebase/firestore';
 import { Box } from '@material-ui/core';
 import { customAlphabet } from 'nanoid';
+
 const nanoid = customAlphabet('1234567890', 4);
 const customStyles = {
-  content : {
-    top                   : '50%',
-    left                  : '50%',
-    right                 : 'auto',
-    bottom                : 'auto',
-    marginRight           : '-50%',
-    transform             : 'translate(-50%, -50%)'
-  }
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+  },
 };
 
-Modal.setAppElement('#root')
+Modal.setAppElement('#root');
 
 const useStyles = makeStyles({
   root: {
@@ -39,19 +40,25 @@ export const Details = ({
   productWeight,
   productSize,
   productId,
-  productImageUrl
+  productImageUrl,
 }) => {
   const classes = useStyles();
   const [description, setDescription] = useState('');
   const [comments, setComments] = useState('');
-  const ref = firebase.firestore().collection(`Products/${productId}/comments/`);
-  const reference = firebase.firestore().collection("Products");
   const [changeName, setChangeName] = useState(productName);
-  const [changeDescription, setChangeDescription] = useState(productDescription);
   const [changeWeight, setChangeWeight] = useState(productWeight);
+  const [changeDescription, setChangeDescription]
+    = useState(productDescription);
+  const ref = firebase
+    .firestore()
+    .collection(`Products/${productId}/comments/`);
+  const reference = firebase
+    .firestore()
+    .collection('Products');
 
-  var subtitle;
-  const [modalIsOpen,setIsOpen] = React.useState(false);
+  let subtitle;
+  const [modalIsOpen, setIsOpen] = React.useState(false);
+
   function openModal() {
     setIsOpen(true);
   }
@@ -60,7 +67,7 @@ export const Details = ({
     subtitle.style.color = 'black';
   }
 
-  function closeModal(){
+  function closeModal() {
     setIsOpen(false);
   }
 
@@ -69,13 +76,14 @@ export const Details = ({
       .doc(updatedProduct.id)
       .update(updatedProduct)
       .catch((err) => {
-        console.error(err);
+        throw new Error(err);
       });
   }
 
   function getComments() {
     ref.onSnapshot((querySnapshot) => {
       const items = [];
+
       querySnapshot.forEach((item) => {
         items.push(item.data());
       });
@@ -85,14 +93,14 @@ export const Details = ({
 
   useEffect(() => {
     getComments();
-  }, [])
+  }, []);
 
   function addComment(newComment) {
     ref
       .doc(newComment.id)
       .set(newComment)
       .catch((err) => {
-        console.error(err);
+        throw new Error(err);
       });
   }
 
@@ -101,25 +109,27 @@ export const Details = ({
       .doc(comment.id)
       .delete()
       .catch((err) => {
-        console.error(err);
+        throw new Error(err);
       });
   }
 
   const addCommentToDatabase = () => {
-    addComment({ description, id: nanoid(), productId, date: new Date() });
-  }
+    addComment({
+      description, id: nanoid(), productId, date: new Date(),
+    });
+  };
 
   const editName = (event) => {
     setChangeName(event.target.value);
-  }
+  };
 
   const editDescription = (event) => {
     setChangeDescription(event.target.value);
-  }
+  };
 
   const editWeight = (event) => {
     setChangeWeight(event.target.value);
-  }
+  };
 
   return (
     <>
@@ -143,11 +153,17 @@ export const Details = ({
               {`Weight: ${productWeight}g.`}
             </Typography>
             <Typography variant="body2" color="textSecondary" component="p">
-              {`Height: ${productSize && productSize.height}mm Width: ${productSize && productSize.width}mm`}
+              {`Height: ${productSize && productSize.height}mm`
+              + ` Width: ${productSize && productSize.width}mm`}
             </Typography>
 
             <Box m={2}>
-              <Button variant="contained" onClick={openModal}>Edit details</Button>
+              <Button
+                variant="contained"
+                onClick={openModal}
+              >
+                Edit details
+              </Button>
             </Box>
 
             <Typography>Comments:</Typography>
@@ -160,7 +176,9 @@ export const Details = ({
                     : (<>No comments</>)}
                 </Typography>
                 <Typography>
-                  {comment.date && `Date: ${new Date(comment.date.seconds).toLocaleDateString()}`}
+                  {comment.date && `Date: ${
+                    new Date().toISOString().slice(0, 10)
+                  }`}
                 </Typography>
                 <Box m={2}>
                   <Button
@@ -175,14 +193,15 @@ export const Details = ({
             ))}
             <form
               className={classes.root}
-              noValidate autoComplete="off"
+              noValidate
+              autoComplete="off"
             >
               <TextField
                 type="text"
                 id="standard-basic"
                 label="Comment"
                 value={description}
-                onChange={(e) => setDescription(e.target.value)}
+                onChange={e => setDescription(e.target.value)}
               />
               <Box m={2}>
                 <Button
@@ -225,7 +244,12 @@ export const Details = ({
                 />
                 <Box>
                   <Button
-                    onClick={() => editProducts({ name: changeName, description: changeDescription, weight: changeWeight, id: productId })}
+                    onClick={() => editProducts({
+                      name: changeName,
+                      description: changeDescription,
+                      weight: changeWeight,
+                      id: productId,
+                    })}
                   >
                     Save
                   </Button>
@@ -238,13 +262,16 @@ export const Details = ({
       </Card>
     </>
   );
-}
+};
 
 Details.propTypes = {
   productName: PropTypes.string.isRequired,
   productDescription: PropTypes.string.isRequired,
   productWeight: PropTypes.string.isRequired,
-  productSize: PropTypes.object.isRequired,
+  productSize: PropTypes.shape({
+    height: PropTypes.string.isRequired,
+    width: PropTypes.string.isRequired,
+  }).isRequired,
   productId: PropTypes.string.isRequired,
   productImageUrl: PropTypes.string.isRequired,
-}
+};

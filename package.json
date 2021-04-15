@@ -30,7 +30,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "eslint src/**/*.js src/**/*.jsx",
+    "lint-js": "eslint --ext .jsx,.js ./src/ --fix",
+    "lint-css": "stylelint src/**/*.css src/**/*.scss --fix",
+    "lint": "npm run lint-js && npm run lint-css",
     "firebase-deploy": "firebase deploy"
   },
   "eslintConfig": {
@@ -51,7 +53,24 @@
       "last 1 safari version"
     ]
   },
+  "lint-staged": {
+    "*.css": [
+      "stylelint",
+      "git add"
+    ],
+    "*.js": [
+      "eslint",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
   "devDependencies": {
+    "@mate-academy/eslint-config-react": "*",
+    "@mate-academy/stylelint-config": "*",
     "@typescript-eslint/eslint-plugin": "^4.22.0",
     "@typescript-eslint/parser": "^4.22.0",
     "babel-eslint": "^10.1.0",
@@ -66,6 +85,9 @@
     "eslint-plugin-react": "^7.23.2",
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-plugin-testing-library": "^3.10.2",
-    "prettier": "^2.2.1"
+    "husky": "^4.0.10",
+    "lint-staged": "^9.5.0",
+    "prettier": "^2.2.1",
+    "stylelint": "^13.0.0"
   }
 }

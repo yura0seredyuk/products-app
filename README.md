@@ -1,4 +1,4 @@
-* [DEMO_LINK](https://yura0seredyuk.github.io/products-app/)
+* [DEMO_LINK](https://yura0seredyuk.github.io/products-app/index.html)
 
 Вивести список продуктів.
 Кожен продукт в загальному списку повинен містити:

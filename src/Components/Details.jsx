@@ -78,6 +78,7 @@ export const Details = ({
       .catch((err) => {
         throw new Error(err);
       });
+    setIsOpen(false)
   }
 
   function getComments() {
@@ -147,7 +148,7 @@ export const Details = ({
             <Typography gutterBottom variant="h4" component="h2">
               {productName}
             </Typography>
-            <Typography variant="h5">
+            <Typography variant="body1">
               {productDescription}
             </Typography>
             <Typography variant="body2" color="textSecondary" component="p">
@@ -254,7 +255,9 @@ export const Details = ({
                   >
                     Save
                   </Button>
-                  <Button onClick={closeModal}>Close details</Button>
+                  <Button onClick={closeModal}>
+                    Close details
+                  </Button>
                 </Box>
               </form>
             </Modal>

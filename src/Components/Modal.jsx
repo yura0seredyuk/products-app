@@ -120,14 +120,15 @@ export function ModalForm() {
         <h2 ref={_subtitle => (subtitle = _subtitle)}>ADD NEW PRODUCT</h2>
         <form
           className={classes.root}
-          noValidate
           autoComplete="off"
+          onSubmit={addProductToDatabase}
         >
           <TextField
             type="text"
             id="standard-basic"
             label="Name"
             value={name}
+            required
             onChange={e => setName(e.target.value)}
           />
 
@@ -136,6 +137,7 @@ export function ModalForm() {
             id="standard-basic"
             label="Count"
             value={count}
+            required
             onChange={e => setCount(e.target.value)}
           />
 
@@ -144,6 +146,7 @@ export function ModalForm() {
             id="standard-basic"
             label="ImageUrl"
             value={imageUrl}
+            required
             onChange={e => setImageUrl(e.target.value)}
           />
 
@@ -152,6 +155,7 @@ export function ModalForm() {
             id="standard-basic"
             label="Weight"
             value={weight}
+            required
             onChange={e => setWeight(e.target.value)}
           />
 
@@ -159,6 +163,8 @@ export function ModalForm() {
             type="text"
             id="standard-basic"
             label="Size"
+            placeholder="height x width (x required)"
+            required
             onChange={addSize}
           />
 
@@ -166,6 +172,7 @@ export function ModalForm() {
             type="text"
             id="standard-basic"
             label="Description"
+            required
             onChange={e => setDescription((e.target.value))}
           />
 
@@ -181,9 +188,9 @@ export function ModalForm() {
             </Box>
             <Box>
               <Button
+                type="submit"
                 variant="outlined"
                 color="primary"
-                onClick={addProductToDatabase}
               >
                 Submit
               </Button>

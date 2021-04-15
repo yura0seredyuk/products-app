@@ -74,6 +74,15 @@ export function ModalForm() {
     });
   };
 
+  const clearFields = () => {
+    setName('');
+    setSize('');
+    setCount('');
+    setDescription('');
+    setImageUrl('');
+    setWeight('');
+  }
+
   const addProductToDatabase = () => {
     addNewProducts({
       id: nanoid(),
@@ -86,6 +95,7 @@ export function ModalForm() {
       comments: [],
     });
     setIsOpen(false);
+    clearFields();
   };
 
   return (

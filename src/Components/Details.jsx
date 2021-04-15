@@ -117,6 +117,7 @@ export const Details = ({
     addComment({
       description, id: nanoid(), productId, date: new Date(),
     });
+      setDescription('');
   };
 
   const editName = (event) => {
